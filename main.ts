@@ -2,6 +2,7 @@ robobit.select_model(RBModel.Mk3)
 basic.showIcon(IconNames.Asleep)
 let v_st = 20
 let v_dr = 50
+robobit.goms(RBDirection.Forward, 60, 400)
 basic.forever(function () {
     while (robobit.sonar(RBPingUnit.Centimeters) >= 5) {
         robobit.move(RBMotor.Left, RBDirection.Forward, v_st)
