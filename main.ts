@@ -4,6 +4,7 @@ basic.forever(function () {
     while (robobit.sonar(RBPingUnit.Centimeters) >= 5) {
         robobit.move(RBMotor.Left, RBDirection.Forward, 30)
         robobit.move(RBMotor.Right, RBDirection.Forward, 60)
+        basic.pause(500)
     }
     robobit.stop(RBStopMode.Coast)
     while (robobit.sonar(RBPingUnit.Centimeters) <= 5) {
