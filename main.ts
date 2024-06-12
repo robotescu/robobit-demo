@@ -1,18 +1,25 @@
 robobit.select_model(RBModel.Mk3)
 basic.showIcon(IconNames.Asleep)
-let v_st = 20
-let v_dr = 50
-robobit.goms(RBDirection.Forward, 60, 400)
+// asteapta 5s
+basic.pause(5000)
+// Porneste inainte la viteza maxima
+robobit.go(RBDirection.Forward, 100)
+// Am considerat ca alb e 0 si negru e 1 - trebuie verificat
 basic.forever(function () {
-    while (robobit.sonar(RBPingUnit.Centimeters) >= 5) {
-        robobit.move(RBMotor.Left, RBDirection.Forward, v_st)
-        robobit.move(RBMotor.Right, RBDirection.Forward, v_dr)
-        basic.pause(1000)
-        v_st += 5
-        v_dr += 5
+    if (robobit.readLine(RBLineSensor.Right) == 0 && robobit.readLine(RBLineSensor.Left) == 0) {
+        // daca ambii senzori vede alb, atunci franeaza, da inapoi si intoarce in alta directie
+        robobit.stop(RBStopMode.Brake)
+        robobit.goms(RBDirection.Reverse, 100, 400)
+        robobit.rotatems(RBRobotDirection.Left, 60, 500)
+    } else if (robobit.readLine(RBLineSensor.Right) == 0) {
+        // daca senzorul din dreapta vede alb, franeaza si vireaza spre stanga
+        robobit.stop(RBStopMode.Brake)
+        robobit.rotatems(RBRobotDirection.Left, 60, 400)
+    } else if (robobit.readLine(RBLineSensor.Left) == 0) {
+        // daca senzorul din stanga vede alb, franeaza si vireaza spre dreapta
+        robobit.stop(RBStopMode.Brake)
+        robobit.rotatems(RBRobotDirection.Right, 60, 400)
     }
-    robobit.stop(RBStopMode.Coast)
-    while (robobit.sonar(RBPingUnit.Centimeters) <= 5) {
-        robobit.goms(RBDirection.Forward, 100, 500)
-    }
+    // daca este pe negru mergi inainte la vit maxima
+    robobit.go(RBDirection.Forward, 100)
 })
